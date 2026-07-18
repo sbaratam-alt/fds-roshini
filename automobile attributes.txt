@@ -1,0 +1,51 @@
+# ==========================================
+# Identify Nominal, Numeric and Binary Attributes
+# File: Automobile_data.csv
+# ==========================================
+
+import pandas as pd
+
+# Read the dataset
+df = pd.read_csv("Automobile_data.csv")
+
+# Replace '?' with NaN
+df.replace("?", pd.NA, inplace=True)
+
+# Convert possible numeric columns
+numeric_cols = ['normalized-losses','bore','stroke',
+                'horsepower','peak-rpm','price']
+
+for col in numeric_cols:
+    if col in df.columns:
+        df[col] = pd.to_numeric(df[col], errors='coerce')
+
+# -----------------------------
+# Numeric Attributes
+# -----------------------------
+numeric_attributes = df.select_dtypes(include=['int64', 'float64']).columns.tolist()
+
+# -----------------------------
+# Binary Attributes
+# -----------------------------
+binary_attributes = [col for col in df.columns if df[col].nunique(dropna=True) == 2]
+
+# -----------------------------
+# Nominal Attributes
+# -----------------------------
+nominal_attributes = []
+
+for col in df.select_dtypes(include=['object']).columns:
+    if df[col].nunique(dropna=True) > 2:
+        nominal_attributes.append(col)
+
+# -----------------------------
+# Print Results
+# -----------------------------
+print("Numeric Attributes:")
+print(numeric_attributes)
+
+print("\nBinary Attributes:")
+print(binary_attributes)
+
+print("\nNominal Attributes:")
+print(nominal_attributes)
