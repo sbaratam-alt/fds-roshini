@@ -1,0 +1,52 @@
+# Import required libraries
+import pandas as pd
+from google.colab import files
+
+# Upload the dataset
+uploaded = files.upload()
+
+# Read the dataset
+df = pd.read_csv("Titanic-Dataset.csv")
+
+# Display first 5 rows
+print("First 5 Rows:")
+print(df.head())
+
+# Display column names
+print("\nColumns in the Dataset:")
+print(df.columns.tolist())
+
+# -----------------------------
+# Identify Attribute Types
+# -----------------------------
+
+# Numeric attributes
+numeric_attributes = []
+for col in df.columns:
+    if df[col].dtype == 'int64' or df[col].dtype == 'float64':
+        numeric_attributes.append(col)
+
+# Binary attributes (exactly 2 unique values)
+binary_attributes = []
+for col in df.columns:
+    if df[col].nunique() == 2:
+        binary_attributes.append(col)
+
+# Nominal attributes (object/string columns)
+nominal_attributes = []
+for col in df.columns:
+    if df[col].dtype == 'object':
+        nominal_attributes.append(col)
+
+# Print the results
+print("\n========== NUMERIC ATTRIBUTES ==========")
+for col in numeric_attributes:
+    print(col)
+
+print("\n========== BINARY ATTRIBUTES ==========")
+for col in binary_attributes:
+    print(col)
+
+print("\n========== NOMINAL ATTRIBUTES ==========")
+for col in nominal_attributes:
+    print(col)
