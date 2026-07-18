@@ -1,0 +1,32 @@
+# Import required libraries
+import pandas as pd
+import numpy as np
+from google.colab import files
+
+# Upload dataset
+uploaded = files.upload()
+
+# Read the dataset
+df = pd.read_csv("Titanic-Dataset.csv")
+
+# Select two numeric attributes
+numeric_data = df[['Age', 'Fare']].dropna().reset_index(drop=True)
+
+# Display first 5 records
+print("First 5 Records:")
+print(numeric_data.head())
+
+# Calculate Euclidean distance between the first two records
+record1 = numeric_data.iloc[0]
+record2 = numeric_data.iloc[1]
+
+distance = np.sqrt((record1['Age'] - record2['Age'])**2 +
+                   (record1['Fare'] - record2['Fare'])**2)
+
+print("\nRecord 1:")
+print(record1)
+
+print("\nRecord 2:")
+print(record2)
+
+print("\nEuclidean Dissimilarity (Distance):", distance)
