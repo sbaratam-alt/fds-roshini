@@ -1,0 +1,29 @@
+# Import libraries
+import pandas as pd
+from google.colab import files
+
+# Upload dataset
+uploaded = files.upload()
+
+# Read dataset
+df = pd.read_csv("Titanic-Dataset.csv")
+
+# Select two nominal attributes
+nominal_data = df[['Sex', 'Embarked']]
+
+print("First 10 Records:")
+print(nominal_data.head(10))
+
+# Calculate dissimilarity
+print("\nDissimilarity (0 = Same, 1 = Different):")
+
+for i in range(10):
+    sex = nominal_data.iloc[i]['Sex']
+    embarked = nominal_data.iloc[i]['Embarked']
+
+    if sex == embarked:
+        dissimilarity = 0
+    else:
+        dissimilarity = 1
+
+    print(f"Record {i+1}: Sex = {sex}, Embarked = {embarked}, Dissimilarity = {dissimilarity}")
