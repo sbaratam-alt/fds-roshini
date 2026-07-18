@@ -1,0 +1,39 @@
+# ==========================================================
+# Measure Dissimilarity for Two Numeric Attributes
+# Dataset: Automobile_data.csv
+# ==========================================================
+
+import pandas as pd
+import numpy as np
+from scipy.spatial.distance import pdist, squareform
+
+# Read the dataset
+df = pd.read_csv("Automobile_data.csv")
+
+# Replace '?' with NaN
+df.replace("?", np.nan, inplace=True)
+
+# Select two numeric attributes
+numeric_data = df[['horsepower', 'price']]
+
+# Convert to numeric
+numeric_data['horsepower'] = pd.to_numeric(numeric_data['horsepower'], errors='coerce')
+numeric_data['price'] = pd.to_numeric(numeric_data['price'], errors='coerce')
+
+# Fill missing values with median
+numeric_data = numeric_data.fillna(numeric_data.median())
+
+print("Selected Numeric Attributes:")
+print(numeric_data.head())
+
+# ----------------------------------------------------------
+# Calculate Euclidean Distance
+# ----------------------------------------------------------
+distance_matrix = squareform(pdist(numeric_data, metric='euclidean'))
+
+# Convert to DataFrame
+distance_df = pd.DataFrame(distance_matrix)
+
+# Display first 10 × 10 distance matrix
+print("\nEuclidean Distance Matrix (First 10 Rows & Columns):")
+print(distance_df.iloc[:10, :10])
