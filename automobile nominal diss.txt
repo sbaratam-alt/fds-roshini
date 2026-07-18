@@ -1,0 +1,45 @@
+# ==========================================================
+# Measure Dissimilarity for Two Nominal Attributes
+# Dataset: Automobile_data.csv
+# ==========================================================
+
+import pandas as pd
+import numpy as np
+
+# Read dataset
+df = pd.read_csv("Automobile_data.csv")
+
+# Select two nominal attributes
+nominal_data = df[['make', 'body-style']]
+
+print("Selected Nominal Attributes:")
+print(nominal_data.head())
+
+# ----------------------------------------------------------
+# Function to calculate Simple Matching Dissimilarity
+# ----------------------------------------------------------
+def nominal_dissimilarity(row1, row2):
+    mismatches = (row1 != row2).sum()
+    total_attributes = len(row1)
+    return mismatches / total_attributes
+
+# ----------------------------------------------------------
+# Calculate pairwise dissimilarity matrix
+# ----------------------------------------------------------
+n = len(nominal_data)
+
+dissimilarity_matrix = np.zeros((n, n))
+
+for i in range(n):
+    for j in range(n):
+        dissimilarity_matrix[i][j] = nominal_dissimilarity(
+            nominal_data.iloc[i],
+            nominal_data.iloc[j]
+        )
+
+# Convert to DataFrame
+dissimilarity_df = pd.DataFrame(dissimilarity_matrix)
+
+# Display first 10 × 10 matrix
+print("\nPairwise Dissimilarity Matrix (First 10 Rows & Columns):")
+print(dissimilarity_df.iloc[:10, :10])
